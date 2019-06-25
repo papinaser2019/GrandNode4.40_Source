@@ -1,0 +1,202 @@
+﻿@model ProductDetailsModel
+@using System.Globalization
+@using Nop.Core.Domain.Catalog
+@using Nop.Core.Domain.Media
+@using Nop.Services.Helpers
+@using Nop.Services.Media
+@inject CatalogSettings CatalogSettings
+@inject IUserAgentHelper UserAgentHelper
+@inject IDownloadService DownloadService
+
+@if (ViewBag.Status == "rental")
+{
+    <link href="/Plugins/NopFarsi.Plugin.PersianCalender/Content/nopfarsiStyle.min.css" rel="stylesheet" />
+    Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.rtl.css");
+    Html.AppendCssFileParts("~/Plugins/NopFarsi.Plugin.PersianCalender/Content/jquery.Bootstrap-PersianDateTimePicker.min.css");
+    Html.AppendScriptParts("~/lib/bootstrap/bootstrap.min.js");
+    Html.AppendScriptParts("~/Plugins/NopFarsi.Plugin.PersianCalender/Scripts/jalaali.min.js");
+    Html.AppendScriptParts("~/Plugins/NopFarsi.Plugin.PersianCalender/Scripts/jquery.Bootstrap-PersianDateTimePicker.min.js");
+
+    <input type="hidden" id="status" value="@ViewBag.Status" />
+    
+    <script type="text/javascript">
+    $(document).ready(function ()
+    {
+        var status = $("#status").val();
+        if (status == "rental")
+        {
+            $(".attributes.rental-attributes").replaceWith($("#nopfarsi_Rental"));
+            $("#nopfarsi_Rental").css("display", "block");
+        }
+    });
+    </script>
+
+    <div id="nopfarsi_Rental" class="nopfarsi-attributes rental-attributes" style="display: none">
+        @{
+            @*Html.AppendCssFileParts("~/lib/bootstrap/css/bootstrap.rtl.css");
+                <link href="/Plugins/Misc.nopfarsiCalendar/Content/jquery.Bootstrap-PersianDateTimePicker.css" rel="stylesheet" />
+                <script src='~/lib/bootstrap/bootstrap.min.js'></script>
+                <script src='/Plugins/Misc.nopfarsiCalendar/Scripts/jalaali.js'></script>
+                <script src='/Plugins/Misc.nopfarsiCalendar/Scripts/jquery.Bootstrap-PersianDateTimePicker.js'></script>*@
+
+
+            var startDateControlId = $"rental_start_date_{Model.Id}";
+            var endDateControlId = $"rental_end_date_{Model.Id}";
+
+            //C# format for ToString method
+            const string datePickerFormat2 = "MM/dd/yyyy";
+            var isMobileDevice = UserAgentHelper.IsMobileDevice();
+
+            <div class="attribute-item">
+                <div class="attribute-label">
+                    <label class="text-prompt">
+                        @T("Products.RentalStartDate"):
+                    </label>
+                    <span class="required">*</span>
+                </div>
+                <div class="attribute-data">
+                    <input id="@(startDateControlId)"
+                           name="@(startDateControlId)" type="hidden"
+                           value="@Model.RentalStartDate?.ToString(datePickerFormat2, CultureInfo.InvariantCulture)"
+                           @if (isMobileDevice) { <text> readonly</text>} />
+
+                    <div class="input-group">
+                        @*<div class="input-group-addon" data-mddatetimepicker="true" data-trigger="click"
+                                   data-targetselector="#T@(startDateControlId)"
+                                   data-placement="bottom" data-englishnumber="false" data-isgregorian="false"
+                                   data-format="yyyy/MM/dd" data-enabletimepicker="false">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </div>*@
+                        <input type="text" class="form-control"
+                               id="T@(startDateControlId)"
+                               placeholder="تاريخ شروع"
+                               data-targetselector="#T@(startDateControlId)"
+                               data-mddatetimepicker="true" data-placement="bottom" data-englishnumber="false"
+                               data-isgregorian="false" data-format="yyyy/MM/dd"
+                               data-enabletimepicker="false" />
+                    </div>
+
+                </div>
+            </div>
+            <div class="attribute-item">
+                <div class="attribute-label">
+                    <label class="text-prompt">
+                        @T("Products.RentalEndDate"):
+                    </label>
+                    <span class="required">*</span>
+                </div>
+                <div class="attribute-data">
+                    <input id="@(endDateControlId)"
+                           name="@(endDateControlId)" type="hidden"
+                           value="@Model.RentalStartDate?.ToString(datePickerFormat2, CultureInfo.InvariantCulture)"
+                           @if (isMobileDevice) { <text> readonly</text>} />
+
+                    <div class="input-group">
+                        @*<div class="input-group-addon" data-mddatetimepicker="true" data-trigger="click"
+                                   data-targetselector="#T@(endDateControlId)"
+                                   data-placement="bottom" data-englishnumber="false" data-isgregorian="false"
+                                   data-format="yyyy/MM/dd" data-enabletimepicker="false">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </div>*@
+                        <input type="text" class="form-control"
+                               id="T@(endDateControlId)"
+                               placeholder="تاريخ پايان"
+                               data-targetselector="#T@(endDateControlId)"
+                               data-mddatetimepicker="true" data-placement="bottom" data-englishnumber="false"
+                               data-isgregorian="false" data-format="yyyy/MM/dd"
+                               data-enabletimepicker="false" />
+                    </div>
+                </div>
+            </div>
+            <!--generate nopfarsi.ir-->
+}
+        <script>
+        $(document).ready(function()
+        {
+            function getGregorianDateTime(persianDateTime)
+            {
+                var d = new Date(persianDateTime.MdPersianDateTimePicker('getDate'));
+                var year = d.getFullYear();
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+                month = month <= 9 ? "0" + month.toString() : month.toString();
+                day = day <= 9 ? "0" + day.toString() : day.toString();
+                var result = month +
+                    "/" +
+                    day +
+                    "/" +
+                    year;
+                return result;
+            }
+
+            $("#T@(startDateControlId)").change(function()
+            {
+                var myDatePicker = $("#T@(startDateControlId)");
+                var myGregorian = $("#@startDateControlId");
+
+                if (myDatePicker.val() !== "" && myDatePicker.val() !== null)
+                {
+                    var gregorianStartDateTime = getGregorianDateTime(myDatePicker);
+                    //alert("gregorianStartDateTime = " + gregorianStartDateTime);
+                    myGregorian.val(gregorianStartDateTime);
+                }
+                else
+                {
+                    myGregorian.val(null);
+                }
+            });
+
+            $("#T@(endDateControlId)").change(function()
+            {
+                var myDatePicker = $("#T@(endDateControlId)");
+                var myGregorian = $("#@endDateControlId");
+
+                if (myDatePicker.val() !== "" && myDatePicker.val() !== null)
+                {
+                    var gregorianStartDateTime = getGregorianDateTime(myDatePicker);
+                    //alert("gregorianStartDateTime = " + gregorianStartDateTime);
+                    myGregorian.val(gregorianStartDateTime);
+                }
+                else
+                {
+                    myGregorian.val(null);
+                }
+                //alert(myGregorian.val());
+            });
+        });
+        </script>
+        <script type="text/javascript" asp-location="Footer">
+        function onRentalDatePickerSelect() {
+            @{
+                //almost the same implementation is used in the \Views\Product\_ProductAttributes.cshtml file
+                var productId = Model.Id;
+                if (CatalogSettings.AjaxProcessAttributeChange)
+                {
+                    <text>
+                        $.ajax({
+                            cache: false,
+                            url: '@Html.Raw(Url.Action("productdetails_attributechange", "shoppingcart", new {productId = productId, validateAttributeConditions = false, loadPicture = false }))',
+                            data: $('#product-details-form').serialize(),
+                            type: 'post',
+                            success: function(data) {
+                                if (data.sku) {
+                                    $('#sku-@productId').text(data.sku);
+                                }
+                                if (data.mpn) {
+                                    $('#mpn-@productId').text(data.mpn);
+                                }
+                                if (data.gtin) {
+                                    $('#gtin-@productId').text(data.gtin);
+                                }
+                                if (data.price) {
+                                    $('.price-value-@productId').text(data.price);
+                                }
+                            }
+                        });
+                    </text>
+                }
+            }
+        }
+        </script>
+    </div>
+}

@@ -1,0 +1,11 @@
+﻿{
+  "Group": "1_NopFarsi",
+  "FriendlyName": "Mellat Card",
+  "SystemName": "NopFarsi.Payments.Mellat",
+  "Version": "41.0",
+  "SupportedVersions": [ "4.10" ],
+  "Author": "MJ Vakili nopFarsi.ir",
+  "DisplayOrder": 1,
+  "FileName": "NopFarsi.Payments.Mellat.dll",
+  "Description": "This plugin allows paying with Mellat Bank"
+}

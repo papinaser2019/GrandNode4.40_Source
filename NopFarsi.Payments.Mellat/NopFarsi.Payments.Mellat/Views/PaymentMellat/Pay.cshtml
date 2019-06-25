@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "_ColumnsOne";
+}
+@using Nop.Web.Framework;
+<form method="post" id="frmpay" action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat">
+    <input type="hidden" name="RefId" value="@ViewBag.result" />
+    <input type="submit" name="btnSend" value="انتقال به درگاه پرداخت" id="btnsend"/>
+</form>
+<script type="text/javascript" asp-location="Footer">
+    $("#frmpay").trigger("submit");
+</script>

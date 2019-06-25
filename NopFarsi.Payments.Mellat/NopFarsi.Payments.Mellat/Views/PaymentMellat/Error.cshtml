@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "_ColumnsOne";
+}
+
+@using Nop.Web.Framework;
+
+@{
+    var text = ViewBag.result;
+    var order = ViewBag.orderId;
+    
+        <div>
+            <br/>
+            <h1>نتیجه بازگشت از درگاه پرداخت اینترنتی</h1>
+            <hr/>
+            <div style="text-align: center;">
+                <p>@text</p>
+                @{  int t;
+                  if (!int.TryParse(text, out t))
+                  {
+                    <p>کد خطا: @ViewBag.ErrorCode</p>
+                  }
+                }
+
+            </div>
+            <hr/>
+            @if (order != 0)
+            {
+                <a href="@Url.RouteUrl("OrderDetails", new { orderId = order })">@string.Format(T("Account.CustomerOrders.RecurringOrders.ViewInitialOrder").Text, order)</a>
+            }
+        </div>
+}
+
