@@ -1,27 +1,367 @@
-/** 
- * Copyright 2018 Telerik AD                                                                                                                                                                            
- *                                                                                                                                                                                                      
- * Licensed under the Apache License, Version 2.0 (the "License");                                                                                                                                      
- * you may not use this file except in compliance with the License.                                                                                                                                     
- * You may obtain a copy of the License at                                                                                                                                                              
- *                                                                                                                                                                                                      
- *     http://www.apache.org/licenses/LICENSE-2.0                                                                                                                                                       
- *                                                                                                                                                                                                      
- * Unless required by applicable law or agreed to in writing, software                                                                                                                                  
- * distributed under the License is distributed on an "AS IS" BASIS,                                                                                                                                    
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                                                                                                                             
- * See the License for the specific language governing permissions and                                                                                                                                  
- * limitations under the License.                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
+/**
+ * Copyright 2018 Telerik AD
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+
+
+
+
+
+
+
+
 
 */
+
+function JalaliDate() {
+    this.g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], this.j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
+    this.jalaliToGregorian = function(r, y, t) {
+        r = parseInt(r);
+        y = parseInt(y);
+        t = parseInt(t);
+        var o = r - 979;
+        var w = y - 1;
+        var q = t - 1;
+        var s = 365 * o + parseInt(o / 33) * 8 + parseInt((o % 33 + 3) / 4);
+        for (var u = 0; u < w; ++u) {
+            s += this.j_days_in_month[u]
+        }
+        s += q;
+        var x = s + 79;
+        var i = 1600 + 400 * parseInt(x / 146097);
+        x = x % 146097;
+        var z = true;
+        if (x >= 36525) {
+            x--;
+            i += 100 * parseInt(x / 36524);
+            x = x % 36524;
+            if (x >= 365) {
+                x++
+            } else {
+                z = false
+            }
+        }
+        i += 4 * parseInt(x / 1461);
+        x %= 1461;
+        if (x >= 366) {
+            z = false;
+            x--;
+            i += parseInt(x / 365);
+            x = x % 365
+        }
+        for (var u = 0; x >= this.g_days_in_month[u] + (u == 1 && z); u++) {
+            x -= this.g_days_in_month[u] + (u == 1 && z)
+        }
+        var v = u + 1;
+        var p = x + 1;
+        return [i, v, p]
+    };
+    this.checkDate = function(d, f, e) {
+        return !(d < 0 || d > 32767 || f < 1 || f > 12 || e < 1 || e > (this.j_days_in_month[f - 1] + (f == 12 && !((d - 979) % 33 % 4))))
+    };
+    this.gregorianToJalali = function(z, u, i) {
+        z = parseInt(z);
+        u = parseInt(u);
+        i = parseInt(i);
+        var o = z - 1600;
+        var w = u - 1;
+        var r = i - 1;
+        var y = 365 * o + parseInt((o + 3) / 4) - parseInt((o + 99) / 100) + parseInt((o + 399) / 400);
+        for (var v = 0; v < w; ++v) {
+            y += this.g_days_in_month[v]
+        }
+        if (w > 1 && ((o % 4 == 0 && o % 100 != 0) || (o % 400 == 0))) {
+            ++y
+        }
+        y += r;
+        var t = y - 79;
+        var p = parseInt(t / 12053);
+        t %= 12053;
+        var q = 979 + 33 * p + 4 * parseInt(t / 1461);
+        t %= 1461;
+        if (t >= 366) {
+            q += parseInt((t - 1) / 365);
+            t = (t - 1) % 365
+        }
+        for (var v = 0; v < 11 && t >= this.j_days_in_month[v]; ++v) {
+            t -= this.j_days_in_month[v]
+        }
+        var x = v + 1;
+        var s = t + 1;
+        return [q, x, s]
+    };
+    this.setJalali = function() {
+        this.jalalidate = this.gregorianToJalali(this.gregoriandate.getFullYear(), this.gregoriandate.getMonth() + 1, this.gregoriandate.getDate());
+        this.jalalidate[1]--
+    };
+    this.getDate = function() {
+        return this.jalalidate[2]
+    };
+    this.getDay = function() {
+        return this.gregoriandate.getDay()
+    };
+    this.getFullYear = function() {
+        return this.jalalidate[0]
+    };
+    this.getHours = function() {
+        return this.gregoriandate.getHours()
+    };
+    this.getMilliseconds = function() {
+        return this.gregoriandate.getMilliseconds()
+    };
+    this.getMinutes = function() {
+        return this.gregoriandate.getMinutes()
+    };
+    this.getMonth = function() {
+        return this.jalalidate[1]
+    };
+    this.getSeconds = function() {
+        return this.gregoriandate.getSeconds()
+    };
+    this.getTime = function() {
+        return this.gregoriandate.getTime()
+    };
+    this.getTimezoneOffset = function() {
+        return this.gregoriandate.getTimezoneOffset()
+    };
+    this.getUTCDate = function() {
+        return this.gregoriandate.getUTCDate()
+    };
+    this.getUTCDay = function() {
+        return this.gregoriandate.getUTCDay()
+    };
+    this.getUTCFullYear = function() {
+        return this.gregoriandate.getUTCFullYear()
+    };
+    this.getUTCHours = function() {
+        return this.gregoriandate.getUTCHours()
+    };
+    this.getUTCMilliseconds = function() {
+        return this.gregoriandate.getUTCMilliseconds()
+    };
+    this.getUTCMinutes = function() {
+        return this.gregoriandate.getUTCMinutes()
+    };
+    this.getUTCMonth = function() {
+        return this.gregoriandate.getUTCMonth()
+    };
+    this.getUTCSeconds = function() {
+        return this.gregoriandate.getUTCSeconds()
+    };
+    this.getYear = function() {
+        return this.gregoriandate.getYear()
+    };
+    this.setDate = function(e) {
+        var f = -1 * (this.jalalidate[2] - e);
+        var d = this.gregoriandate.setDate(this.gregoriandate.getDate() + f);
+        this.gregoriandate.setHours(0, 0, 0, 0);
+        this.setJalali();
+        return d
+    };
+    this.setFullYear = function(n, m, p) {
+        var k = parseInt(n);
+        var j = parseInt(m);
+        var l = parseInt(p);
+        if (isNaN(m)) {
+            j = 0
+        }
+        if (isNaN(p)) {
+            l = 1
+        }
+        if (j < 0) {
+            j = 0
+        }
+        if (j == 12) {
+            k++;
+            j = 0
+        }
+        if (l < 1) {
+            l = 1
+        }
+        var o = this.jalaliToGregorian(k, j + 1, l);
+        var d = this.gregoriandate.setFullYear(o[0], o[1] - 1, o[2]);
+        this.gregoriandate.setHours(0, 0, 0, 0);
+        if (m < 0 || p < 1) {
+            if (m < 0) {
+                d = this.gregoriandate.setMonth(this.gregoriandate.getMonth() + m)
+            }
+            if (p < 1) {
+                d = this.gregoriandate.setDate(this.gregoriandate.getDate() + p - 1)
+            }
+            this.setHours(1, 0, 0, 0);
+            this.setJalali()
+        } else {
+            this.jalalidate = [k, j, l]
+        }
+        return d
+    };
+    this.setHours = function(f, i, h, j) {
+        if (i == undefined) {
+            var g = this.gregoriandate.setHours(f)
+        } else {
+            if (h == undefined) {
+                var g = this.gregoriandate.setHours(f, i)
+            } else {
+                if (j == undefined) {
+                    var g = this.gregoriandate.setHours(f, i, h)
+                } else {
+                    var g = this.gregoriandate.setHours(f, i, h, j)
+                }
+            }
+        }
+        this.setJalali();
+        return g
+    };
+    this.setMilliseconds = function(d) {
+        var c = this.gregoriandate.setMilliseconds(d);
+        this.setJalali();
+        return c
+    };
+    this.setMinutes = function(d) {
+        var c = this.gregoriandate.setMinutes(d);
+        this.setJalali();
+        return c
+    };
+    this.setMonth = function(j, d) {
+        var h = this.jalalidate[0];
+        var g = parseInt(j);
+        var i = this.jalalidate[2];
+        if (isNaN(d) == false) {
+            i = parseInt(d)
+        }
+        return this.setFullYear(h, g, i)
+    };
+    this.setSeconds = function(f, e) {
+        var d = this.gregoriandate.setSeconds(f, e);
+        this.setJalali();
+        return d
+    };
+    this.setTime = function(d) {
+        var c = this.gregoriandate.setTime(d);
+        this.setJalali();
+        return c
+    };
+    this.setUTCDate = function(b) {
+        return this.gregoriandate.setUTCDate(b)
+    };
+    this.setUTCFullYear = function(f, e, d) {
+        return this.gregoriandate.setUTCFullYear(f, e, d)
+    };
+    this.setUTCHours = function(g, f, h, e) {
+        return this.gregoriandate.setUTCHours(g, f, h, e)
+    };
+    this.setUTCMilliseconds = function(b) {
+        return this.gregoriandate.setUTCMilliseconds(b)
+    };
+    this.setUTCMinutes = function(e, f, d) {
+        return this.gregoriandate.setUTCMinutes(e, f, d)
+    };
+    this.setUTCMonth = function(d, c) {
+        return this.gregoriandate.setUTCMonth(d, c)
+    };
+    this.setUTCSeconds = function(c, d) {
+        return this.gregoriandate.setUTCSeconds(c, d)
+    };
+    this.toDateString = function() {
+        return this.jalalidate[0] + "/" + this.jalalidate[1] + "/" + this.jalalidate[2]
+    };
+    this.toISOString = function() {
+        return this.toDateString()
+    };
+    this.toJSON = function() {
+        return this.toDateString()
+    };
+    this.toLocaleDateString = function() {
+        return this.toDateString()
+    };
+    this.toLocaleTimeString = function() {
+        return this.gregoriandate.toLocaleTimeString()
+    };
+    this.toLocaleString = function() {
+        return this.toDateString() + " " + this.toLocaleTimeString()
+    };
+    this.toString = function() {
+        return this.toLocaleString()
+    };
+    this.toTimeString = function() {
+        return this.toLocaleTimeString()
+    };
+    this.toUTCString = function() {
+        return this.gregoriandate.toUTCString()
+    };
+    this.UTC = function(j, h, l, m, d, n, k) {
+        return Date.UTC(j, h, l, m, d, n, k)
+    };
+    this.valueOf = function() {
+        return this.gregoriandate.valueOf()
+    };
+    this.gregoriandate = new Date();
+    this.gregoriandate.setHours(0, 0, 0, 0);
+    if (arguments.length == 0) {} else {
+        if (arguments.length == 3) {
+            if (arguments[0] == 1900 || arguments[0] == 2099) {
+                this.gregoriandate.setFullYear(arguments[0], arguments[1], arguments[2])
+            } else {
+                this.setFullYear(arguments[0], arguments[1], arguments[2])
+            }
+        } else {
+            if (arguments.length == 6) {
+                this.setFullYear(arguments[0], arguments[1], arguments[2]);
+                this.setHours(arguments[3], arguments[4], arguments[5])
+            } else {
+                if (arguments.length == 7) {
+                    this.setFullYear(arguments[0], arguments[1], arguments[2]);
+                    this.setHours(arguments[3], arguments[4], arguments[5], arguments[6])
+                } else {
+                    if (arguments.length == 1 && typeof(arguments[0]) === "number") {
+                        this.gregoriandate.setTime(arguments[0])
+                    } else {
+                        if (arguments.length == 1 && arguments[0].jalalidate !== undefined) {
+                            this.gregoriandate = arguments[0].gregoriandate
+                        } else {
+                            if (arguments.length == 1 && arguments[0] instanceof Date) {
+                                this.gregoriandate = arguments[0]
+                            } else {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    this.setJalali()
+}
+JalaliDate.parse = function(l) {
+    try {
+        if ("string" != typeof l) {
+            l = l.toString()
+        }
+        if (l.indexOf("Date(") > -1) {
+            var d = new Date(parseInt(l.replace(/^\/Date\((.*?)\)\/$/, "$1"), 10));
+            var i = new JalaliDate(d).getFullYear(),
+                e = new JalaliDate(d).getMonth(),
+                j = new JalaliDate(d).getDate();
+            return new JalaliDate(i, e, j)
+        } else {
+            var i = parseInt(l.substring(0, 4)),
+                e = parseInt(l.substring(5, 7)),
+                j = parseInt(l.substring(8, 10));
+            return new JalaliDate(i, e - 1, j)
+        }
+    } catch (k) {
+        return new JalaliDate(1300, 1, 1)
+    }
+};
+
 (function (f, define) {
     define('kendo.core', ['jquery'], f);
 }(function () {
@@ -472,9 +812,13 @@
             kendo.culture(EN);
             function formatDate(date, format, culture) {
                 culture = getCulture(culture);
+                var bb = date;
                 var calendar = culture.calendars.standard, days = calendar.days, months = calendar.months;
                 format = calendar.patterns[format] || format;
                 return format.replace(dateFormatRegExp, function (match) {
+                    if (typeof date.jalalidate && date.getYear() > 0) {
+                        bb = new JalaliDate(date)
+                    }
                     var minutes;
                     var result;
                     var sign;
@@ -811,7 +1155,7 @@
             };
             var toString = function (value, fmt, culture) {
                 if (fmt) {
-                    if (objectToString.call(value) === '[object Date]') {
+                    if (objectToString.call(value) === '[object Date]' || value instanceof JalaliDate) {
                         return formatDate(value, fmt, culture);
                     } else if (typeof value === NUMBER) {
                         return formatNumber(value, fmt, culture);
@@ -1174,8 +1518,11 @@
                 return formats;
             }
             function internalParseDate(value, formats, culture, strict) {
-                if (objectToString.call(value) === '[object Date]') {
+                if (objectToString.call(value) === '[object Date]' || value instanceof JalaliDate) {
                     return value;
+                }
+                if (value !== null && value !== "" && value != undefined && formats == "yyyy/MM/dd") {
+                    return JalaliDate.parse(value)
                 }
                 var idx = 0;
                 var date = null;
@@ -1186,7 +1533,7 @@
                     if (date) {
                         date = date[1];
                         tzoffset = offsetRegExp.exec(date.substring(1));
-                        date = new Date(parseInt(date, 10));
+                        date = new JalaliDate(parseInt(date, 10));
                         if (tzoffset) {
                             tzoffset = parseMicrosoftFormatOffset(tzoffset[0]);
                             date = kendo.timezone.apply(date, 0);

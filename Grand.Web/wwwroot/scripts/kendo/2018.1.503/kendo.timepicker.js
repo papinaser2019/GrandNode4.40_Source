@@ -1,25 +1,25 @@
-/** 
- * Copyright 2018 Telerik AD                                                                                                                                                                            
- *                                                                                                                                                                                                      
- * Licensed under the Apache License, Version 2.0 (the "License");                                                                                                                                      
- * you may not use this file except in compliance with the License.                                                                                                                                     
- * You may obtain a copy of the License at                                                                                                                                                              
- *                                                                                                                                                                                                      
- *     http://www.apache.org/licenses/LICENSE-2.0                                                                                                                                                       
- *                                                                                                                                                                                                      
- * Unless required by applicable law or agreed to in writing, software                                                                                                                                  
- * distributed under the License is distributed on an "AS IS" BASIS,                                                                                                                                    
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                                                                                                                             
- * See the License for the specific language governing permissions and                                                                                                                                  
- * limitations under the License.                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
+/**
+ * Copyright 2018 Telerik AD
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+
+
+
+
+
+
+
+
 
 */
 (function (f, define) {
@@ -36,8 +36,8 @@
         depends: ['popup']
     };
     (function ($, undefined) {
-        var kendo = window.kendo, keys = kendo.keys, parse = kendo.parseDate, activeElement = kendo._activeElement, extractFormat = kendo._extractFormat, support = kendo.support, browser = support.browser, ui = kendo.ui, Widget = ui.Widget, OPEN = 'open', CLOSE = 'close', CHANGE = 'change', ns = '.kendoTimePicker', CLICK = 'click' + ns, DEFAULT = 'k-state-default', DISABLED = 'disabled', READONLY = 'readonly', LI = 'li', SPAN = '<span/>', FOCUSED = 'k-state-focused', HOVER = 'k-state-hover', HOVEREVENTS = 'mouseenter' + ns + ' mouseleave' + ns, MOUSEDOWN = 'mousedown' + ns, MS_PER_MINUTE = 60000, MS_PER_DAY = 86400000, SELECTED = 'k-state-selected', STATEDISABLED = 'k-state-disabled', ARIA_SELECTED = 'aria-selected', ARIA_EXPANDED = 'aria-expanded', ARIA_HIDDEN = 'aria-hidden', ARIA_DISABLED = 'aria-disabled', ARIA_ACTIVEDESCENDANT = 'aria-activedescendant', ID = 'id', isArray = $.isArray, extend = $.extend, proxy = $.proxy, DATE = Date, TODAY = new DATE();
-        TODAY = new DATE(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate(), 0, 0, 0);
+        var kendo = window.kendo, keys = kendo.keys, parse = kendo.parseDate, activeElement = kendo._activeElement, extractFormat = kendo._extractFormat, support = kendo.support, browser = support.browser, ui = kendo.ui, Widget = ui.Widget, OPEN = 'open', CLOSE = 'close', CHANGE = 'change', ns = '.kendoTimePicker', CLICK = 'click' + ns, DEFAULT = 'k-state-default', DISABLED = 'disabled', READONLY = 'readonly', LI = 'li', SPAN = '<span/>', FOCUSED = 'k-state-focused', HOVER = 'k-state-hover', HOVEREVENTS = 'mouseenter' + ns + ' mouseleave' + ns, MOUSEDOWN = 'mousedown' + ns, MS_PER_MINUTE = 60000, MS_PER_DAY = 86400000, SELECTED = 'k-state-selected', STATEDISABLED = 'k-state-disabled', ARIA_SELECTED = 'aria-selected', ARIA_EXPANDED = 'aria-expanded', ARIA_HIDDEN = 'aria-hidden', ARIA_DISABLED = 'aria-disabled', ARIA_ACTIVEDESCENDANT = 'aria-activedescendant', ID = 'id', isArray = $.isArray, extend = $.extend, proxy = $.proxy, DATE = Date, TODAY = new new JalaliDate();
+        TODAY =  new JalaliDate(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate(), 0, 0, 0);
         var TimeView = function (options) {
             var that = this, id = options.id;
             that.options = options;

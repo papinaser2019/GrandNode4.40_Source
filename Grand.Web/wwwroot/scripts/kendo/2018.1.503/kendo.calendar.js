@@ -1,25 +1,25 @@
-/** 
- * Copyright 2018 Telerik AD                                                                                                                                                                            
- *                                                                                                                                                                                                      
- * Licensed under the Apache License, Version 2.0 (the "License");                                                                                                                                      
- * you may not use this file except in compliance with the License.                                                                                                                                     
- * You may obtain a copy of the License at                                                                                                                                                              
- *                                                                                                                                                                                                      
- *     http://www.apache.org/licenses/LICENSE-2.0                                                                                                                                                       
- *                                                                                                                                                                                                      
- * Unless required by applicable law or agreed to in writing, software                                                                                                                                  
- * distributed under the License is distributed on an "AS IS" BASIS,                                                                                                                                    
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.                                                                                                                             
- * See the License for the specific language governing permissions and                                                                                                                                  
- * limitations under the License.                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
-                                                                                                                                                                                                       
+/**
+ * Copyright 2018 Telerik AD
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+
+
+
+
+
+
+
+
 
 */
 (function (f, define) {
@@ -39,7 +39,7 @@
         ]
     };
     (function ($, undefined) {
-        var kendo = window.kendo, support = kendo.support, ui = kendo.ui, Widget = ui.Widget, keys = kendo.keys, parse = kendo.parseDate, adjustDST = kendo.date.adjustDST, weekInYear = kendo.date.weekInYear, Selectable = kendo.ui.Selectable, extractFormat = kendo._extractFormat, template = kendo.template, getCulture = kendo.getCulture, transitions = kendo.support.transitions, transitionOrigin = transitions ? transitions.css + 'transform-origin' : '', cellTemplate = template('<td#=data.cssClass# role="gridcell"><a tabindex="-1" class="k-link" href="\\#" data-#=data.ns#value="#=data.dateString#">#=data.value#</a></td>', { useWithBlock: false }), emptyCellTemplate = template('<td role="gridcell">&nbsp;</td>', { useWithBlock: false }), weekNumberTemplate = template('<td class="k-alt">#= data.weekNumber #</td>', { useWithBlock: false }), browser = kendo.support.browser, isIE8 = browser.msie && browser.version < 9, outerHeight = kendo._outerHeight, outerWidth = kendo._outerWidth, ns = '.kendoCalendar', CLICK = 'click' + ns, KEYDOWN_NS = 'keydown' + ns, ID = 'id', MIN = 'min', LEFT = 'left', SLIDE = 'slideIn', MONTH = 'month', CENTURY = 'century', CHANGE = 'change', NAVIGATE = 'navigate', VALUE = 'value', HOVER = 'k-state-hover', DISABLED = 'k-state-disabled', FOCUSED = 'k-state-focused', OTHERMONTH = 'k-other-month', OTHERMONTHCLASS = ' class="' + OTHERMONTH + '"', TODAY = 'k-nav-today', CELLSELECTOR = 'td:has(.k-link)', CELLSELECTORVALID = 'td:has(.k-link):not(.' + DISABLED + ')', WEEKCOLUMNSELECTOR = 'td:not(:has(.k-link))', SELECTED = 'k-state-selected', BLUR = 'blur' + ns, FOCUS = 'focus', FOCUS_WITH_NS = FOCUS + ns, MOUSEENTER = support.touch ? 'touchstart' : 'mouseenter', MOUSEENTER_WITH_NS = support.touch ? 'touchstart' + ns : 'mouseenter' + ns, MOUSELEAVE = support.touch ? 'touchend' + ns + ' touchmove' + ns : 'mouseleave' + ns, MS_PER_MINUTE = 60000, MS_PER_DAY = 86400000, PREVARROW = '_prevArrow', NEXTARROW = '_nextArrow', ARIA_DISABLED = 'aria-disabled', ARIA_SELECTED = 'aria-selected', ARIA_LABEL = 'aria-label', proxy = $.proxy, extend = $.extend, DATE = Date, views = {
+        var kendo = window.kendo, support = kendo.support, ui = kendo.ui, Widget = ui.Widget, keys = kendo.keys, parse = kendo.parseDate, adjustDST = kendo.date.adjustDST, weekInYear = kendo.date.weekInYear, Selectable = kendo.ui.Selectable, extractFormat = kendo._extractFormat, template = kendo.template, getCulture = kendo.getCulture, transitions = kendo.support.transitions, transitionOrigin = transitions ? transitions.css + 'transform-origin' : '', cellTemplate = template('<td#=data.cssClass# role="gridcell"><a tabindex="-1" class="k-link" href="\\#" data-#=data.ns#value="#=data.dateString#">#=data.value#</a></td>', { useWithBlock: false }), emptyCellTemplate = template('<td role="gridcell">&nbsp;</td>', { useWithBlock: false }), weekNumberTemplate = template('<td class="k-alt">#= data.weekNumber #</td>', { useWithBlock: false }), browser = kendo.support.browser, isIE8 = browser.msie && browser.version < 9, outerHeight = kendo._outerHeight, outerWidth = kendo._outerWidth, ns = '.kendoCalendar', CLICK = 'click' + ns, KEYDOWN_NS = 'keydown' + ns, ID = 'id', MIN = 'min', LEFT = 'left', SLIDE = 'slideIn', MONTH = 'month', CENTURY = 'century', CHANGE = 'change', NAVIGATE = 'navigate', VALUE = 'value', HOVER = 'k-state-hover', DISABLED = 'k-state-disabled', FOCUSED = 'k-state-focused', OTHERMONTH = 'k-other-month', OTHERMONTHCLASS = ' class="' + OTHERMONTH + '"', TODAY = 'k-nav-today', CELLSELECTOR = 'td:has(.k-link)', CELLSELECTORVALID = 'td:has(.k-link):not(.' + DISABLED + ')', WEEKCOLUMNSELECTOR = 'td:not(:has(.k-link))', SELECTED = 'k-state-selected', BLUR = 'blur' + ns, FOCUS = 'focus', FOCUS_WITH_NS = FOCUS + ns, MOUSEENTER = support.touch ? 'touchstart' : 'mouseenter', MOUSEENTER_WITH_NS = support.touch ? 'touchstart' + ns : 'mouseenter' + ns, MOUSELEAVE = support.touch ? 'touchend' + ns + ' touchmove' + ns : 'mouseleave' + ns, MS_PER_MINUTE = 60000, MS_PER_DAY = 86400000, PREVARROW = '_prevArrow', NEXTARROW = '_nextArrow', ARIA_DISABLED = 'aria-disabled', ARIA_SELECTED = 'aria-selected', ARIA_LABEL = 'aria-label', proxy = $.proxy, extend = $.extend, DATE = JalaliDate, views = {
                 month: 0,
                 year: 1,
                 decade: 2,
@@ -86,7 +86,7 @@
                 value = parse(options.value, options.format, options.culture);
                 that._selectDates = [];
                 that._index = views[options.start];
-                that._current = new DATE(+restrictValue(value, options.min, options.max));
+                that._current = new JalaliDate(+restrictValue(value, options.min, options.max));
                 that._addClassProxy = function () {
                     that._active = true;
                     if (that._cell.hasClass(DISABLED)) {
@@ -108,8 +108,8 @@
             options: {
                 name: 'Calendar',
                 value: null,
-                min: new DATE(1900, 0, 1),
-                max: new DATE(2099, 11, 31),
+                min: new JalaliDate(1300, 1, 1),
+                max: new JalaliDate(1499, 12, 30),
                 dates: [],
                 disableDates: null,
                 url: '',
@@ -214,7 +214,7 @@
                 if (!value) {
                     value = currentValue;
                 }
-                that._current = value = new DATE(+restrictValue(value, min, max));
+                that._current = value = new JalaliDate(+restrictValue(value, min, max));
                 if (view === undefined) {
                     view = that._index;
                 } else {
@@ -463,7 +463,7 @@
                 return +date <= +lastDateInView && +date >= +firstDateInView;
             },
             _move: function (e) {
-                var that = this, options = that.options, key = e.keyCode, view = that._view, index = that._index, min = that.options.min, max = that.options.max, currentValue = new DATE(+that._current), isRtl = kendo.support.isRtl(that.wrapper), isDisabled = that.options.disableDates, value, prevent, method, temp;
+                var that = this, options = that.options, key = e.keyCode, view = that._view, index = that._index, min = that.options.min, max = that.options.max, currentValue = new JalaliDate(+that._current), isRtl = kendo.support.isRtl(that.wrapper), isDisabled = that.options.disableDates, value, prevent, method, temp;
                 if (e.target === that._table[0]) {
                     that._active = true;
                 }
@@ -718,7 +718,7 @@
                 table.on(FOCUS_WITH_NS, this._addClassProxy).on(BLUR, this._removeClassProxy);
             },
             _click: function (link) {
-                var that = this, options = that.options, currentValue = new Date(+that._current), value = that._toDateObject(link);
+                var that = this, options = that.options, currentValue = new JalaliDate(+that._current), value = that._toDateObject(link);
                 adjustDST(value, 0);
                 if (that._view.name == 'month' && that.options.disableDates(value)) {
                     value = that._value;
@@ -887,24 +887,25 @@
                         return getCalendarInfo(culture).months.names[date.getMonth()] + ' ' + date.getFullYear();
                     },
                     content: function (options) {
-                        var that = this, idx = 0, min = options.min, max = options.max, date = options.date, dates = options.dates, format = options.format, culture = options.culture, navigateUrl = options.url, isWeekColumnVisible = options.isWeekColumnVisible, hasUrl = navigateUrl && dates[0], currentCalendar = getCalendarInfo(culture), firstDayIdx = currentCalendar.firstDay, days = currentCalendar.days, names = shiftArray(days.names, firstDayIdx), shortNames = shiftArray(days.namesShort, firstDayIdx), start = calendar.firstVisibleDay(date, currentCalendar), firstDayOfMonth = that.first(date), lastDayOfMonth = that.last(date), toDateString = that.toDateString, today = getToday(), html = '<table tabindex="0" role="grid" class="k-content" cellspacing="0" data-start="' + toDateString(start) + '"><thead><tr role="row">';
+                        var that = this, idx = 0, min = options.min, max = options.max, date = options.date, dates = options.dates, format = options.format, culture = options.culture, navigateUrl = options.url, isWeekColumnVisible = options.isWeekColumnVisible, hasUrl = navigateUrl && dates[0], currentCalendar = getCalendarInfo(culture), firstDayIdx = currentCalendar.firstDay, days = currentCalendar.days, names = shiftArray(days.names, firstDayIdx), shortNames = shiftArray(days.namesShort, firstDayIdx), start = calendar.firstVisibleDay(date, currentCalendar), firstDayOfMonth = that.first(date), lastDayOfMonth = that.last(date), toDateString = that.toDateString, today = new JalaliDate(), html = '<table tabindex="0" role="grid" class="k-content" cellspacing="0" data-start="' + toDateString(start) + '"><thead><tr role="row">';
                         if (isWeekColumnVisible) {
                             html += '<th scope="col" class="k-alt">' + options.messages.weekColumnHeader + '</th>';
                         }
                         for (; idx < 7; idx++) {
                             html += '<th scope="col" title="' + names[idx] + '">' + shortNames[idx] + '</th>';
                         }
+                        today=new JalaliDate(today.getFullYear(), today.getMonth(), today.getDate());
                         adjustDST(today, 0);
                         today = +today;
                         return view({
                             cells: 42,
                             perRow: 7,
                             html: html += '</tr></thead><tbody><tr role="row">',
-                            start: start,
+                            start: new JalaliDate(start.getFullYear(), start.getMonth(), start.getDate()),
                             isWeekColumnVisible: isWeekColumnVisible,
                             weekNumber: options.weekNumber,
-                            min: createDate(min.getFullYear(), min.getMonth(), min.getDate()),
-                            max: createDate(max.getFullYear(), max.getMonth(), max.getDate()),
+                            min: new JalaliDate(min.getFullYear(), min.getMonth(), min.getDate()),
+                            max: new JalaliDate(max.getFullYear(), max.getMonth(), max.getDate()),
                             content: options.content,
                             empty: options.empty,
                             setter: that.setDate,
@@ -1177,18 +1178,18 @@
             return result;
         }
         function getToday() {
-            var today = new DATE();
-            return new DATE(today.getFullYear(), today.getMonth(), today.getDate());
+            var today = new JalaliDate();
+            return new JalaliDate()(today.getFullYear(), today.getMonth(), today.getDate());
         }
         function restrictValue(value, min, max) {
             var today = getToday();
             if (value) {
-                today = new DATE(+value);
+                today = new JalaliDate(+value);
             }
             if (min > today) {
-                today = new DATE(+min);
+                today = new JalaliDate(+min);
             } else if (max < today) {
-                today = new DATE(+max);
+                today = new JalaliDate(+max);
             }
             return today;
         }

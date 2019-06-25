@@ -48,5 +48,10 @@
     <EmbeddedResource Remove="Plugins\**" />
     <None Remove="Plugins\**" />
   </ItemGroup>  
+  <ItemGroup>
+    <Reference Include="Persian">
+      <HintPath>..\NOPCommerce\nopCommerce_4.10_Persian_7452\Libraries\Nop.Data\bin\Debug\netcoreapp2.1\Persian.dll</HintPath>
+    </Reference>
+  </ItemGroup>  
  
 </Project>
