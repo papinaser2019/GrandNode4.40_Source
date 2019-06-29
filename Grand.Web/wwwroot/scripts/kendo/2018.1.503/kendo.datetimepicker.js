@@ -39,7 +39,7 @@
         ]
     };
     (function ($, undefined) {
-        var kendo = window.kendo, TimeView = kendo.TimeView, parse = kendo.parseDate, support = kendo.support, activeElement = kendo._activeElement, extractFormat = kendo._extractFormat, calendar = kendo.calendar, isInRange = calendar.isInRange, restrictValue = calendar.restrictValue, isEqualDatePart = calendar.isEqualDatePart, getMilliseconds = TimeView.getMilliseconds, ui = kendo.ui, Widget = ui.Widget, OPEN = 'open', CLOSE = 'close', CHANGE = 'change', ns = '.kendoDateTimePicker', CLICK = 'click' + ns, UP = support.mouseAndTouchPresent ? kendo.applyEventMap('up', ns.slice(1)) : CLICK, DISABLED = 'disabled', READONLY = 'readonly', DEFAULT = 'k-state-default', FOCUSED = 'k-state-focused', HOVER = 'k-state-hover', STATEDISABLED = 'k-state-disabled', HOVEREVENTS = 'mouseenter' + ns + ' mouseleave' + ns, MOUSEDOWN = 'mousedown' + ns, MONTH = 'month', SPAN = '<span/>', ARIA_ACTIVEDESCENDANT = 'aria-activedescendant', ARIA_EXPANDED = 'aria-expanded', ARIA_HIDDEN = 'aria-hidden', ARIA_OWNS = 'aria-owns', ARIA_DISABLED = 'aria-disabled', DATE = Date, MIN = new DATE(1800, 0, 1), MAX = new DATE(2099, 11, 31), dateViewParams = { view: 'date' }, timeViewParams = { view: 'time' }, extend = $.extend;
+        var kendo = window.kendo, TimeView = kendo.TimeView, parse = kendo.parseDate, support = kendo.support, activeElement = kendo._activeElement, extractFormat = kendo._extractFormat, calendar = kendo.calendar, isInRange = calendar.isInRange, restrictValue = calendar.restrictValue, isEqualDatePart = calendar.isEqualDatePart, getMilliseconds = TimeView.getMilliseconds, ui = kendo.ui, Widget = ui.Widget, OPEN = 'open', CLOSE = 'close', CHANGE = 'change', ns = '.kendoDateTimePicker', CLICK = 'click' + ns, UP = support.mouseAndTouchPresent ? kendo.applyEventMap('up', ns.slice(1)) : CLICK, DISABLED = 'disabled', READONLY = 'readonly', DEFAULT = 'k-state-default', FOCUSED = 'k-state-focused', HOVER = 'k-state-hover', STATEDISABLED = 'k-state-disabled', HOVEREVENTS = 'mouseenter' + ns + ' mouseleave' + ns, MOUSEDOWN = 'mousedown' + ns, MONTH = 'month', SPAN = '<span/>', ARIA_ACTIVEDESCENDANT = 'aria-activedescendant', ARIA_EXPANDED = 'aria-expanded', ARIA_HIDDEN = 'aria-hidden', ARIA_OWNS = 'aria-owns', ARIA_DISABLED = 'aria-disabled', DATE = JalaliDate, MIN = new JalaliDate(1300, 1, 1), MAX = new JalaliDate(1499, 12, 30), dateViewParams = { view: 'date' }, timeViewParams = { view: 'time' }, extend = $.extend;
         var DateTimePicker = Widget.extend({
             init: function (element, options) {
                 var that = this, disabled;
@@ -94,8 +94,8 @@
                 parseFormats: [],
                 dates: [],
                 disableDates: null,
-                min: new DATE(MIN),
-                max: new DATE(MAX),
+                min: new JalaliDate(MIN),
+                max: new JalaliDate(MAX),
                 interval: 30,
                 height: 200,
                 footer: '',
@@ -124,10 +124,10 @@
                 that._midnight = that._calculateMidnight(options.min, options.max);
                 currentValue = options.value || that._value || that.dateView._current;
                 if (min && !isEqualDatePart(min, currentValue)) {
-                    min = new DATE(MIN);
+                    min = new JalaliDate(MIN);
                 }
                 if (max && !isEqualDatePart(max, currentValue)) {
-                    max = new DATE(MAX);
+                    max = new JalaliDate(MAX);
                 }
                 that.dateView.setOptions(options);
                 that.timeView.setOptions(extend({}, options, {
@@ -453,17 +453,17 @@
                     culture: options.culture,
                     height: options.height,
                     interval: options.interval,
-                    min: new DATE(MIN),
-                    max: new DATE(MAX),
+                    min: new JalaliDate(MIN),
+                    max: new JalaliDate(MAX),
                     dates: msMin === options.max.getTime() ? [new Date(msMin)] : [],
                     parseFormats: options.parseFormats,
                     change: function (value, trigger) {
                         value = timeView._parse(value);
                         if (value < options.min) {
-                            value = new DATE(+options.min);
+                            value = new JalaliDate(+options.min);
                             timeView.options.min = value;
                         } else if (value > options.max) {
-                            value = new DATE(+options.max);
+                            value = new JalaliDate(+options.max);
                             timeView.options.max = value;
                         }
                         if (trigger) {

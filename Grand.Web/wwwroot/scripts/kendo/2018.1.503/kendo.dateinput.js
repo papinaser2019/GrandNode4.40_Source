@@ -95,8 +95,8 @@
                 culture: '',
                 value: '',
                 format: '',
-                min: new Date(1900, 0, 1),
-                max: new Date(2099, 11, 31),
+                min: new JalaliDate(1300, 1, 1),
+                max: new JalaliDate(1499, 12, 29),
                 messages: {
                     'year': 'year',
                     'month': 'month',
@@ -557,7 +557,7 @@
                 return date;
             };
             this.modifyPart = function (symbol, offset) {
-                var newValue = new Date(value && value.getTime ? value.getTime() : value);
+                var newValue = new JalaliDate(value && value.getTime ? value.getTime() : value);
                 switch (symbol) {
                 case 'y':
                     newValue.setFullYear(newValue.getFullYear() + offset);
@@ -752,16 +752,16 @@
                 ];
             };
             this.getDateObject = function () {
-                return year && month && date && hours && minutes && seconds && milliseconds ? new Date(value.getTime()) : null;
+                return year && month && date && hours && minutes && seconds && milliseconds ? new JalaliDate(value.getTime()) : null;
             };
             if (!initDate) {
-                value = new Date();
+                value = new JalaliDate();
                 var sampleFormat = this.toPair(initFormat, initCulture, initMessages)[1];
                 for (var i = 0; i < sampleFormat.length; i++) {
                     setExisting(sampleFormat[i], false);
                 }
             } else {
-                value = new Date(initDate.getTime());
+                value = new JalaliDate(initDate.getTime());
             }
         };
         function approximateStringMatching(oldText, oldFormat, newText, caret) {
@@ -818,4 +818,4 @@
     return window.kendo;
 }, typeof define == 'function' && define.amd ? define : function (a1, a2, a3) {
     (a3 || a2)();
-}));
+    }));

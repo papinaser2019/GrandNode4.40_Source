@@ -112,7 +112,7 @@
                 that._html(html);
             },
             refresh: function () {
-                var that = this, options = that.options, format = options.format, offset = dst(), ignoreDST = offset < 0, min = options.min, max = options.max, msMin = getMilliseconds(min), msMax = getMilliseconds(max), msInterval = options.interval * MS_PER_MINUTE, toString = kendo.toString, template = that.template, start = new DATE(+min), startDay = start.getDate(), msStart, lastIdx, idx = 0, length, html = '';
+                var that = this, options = that.options, format = options.format, offset = dst(), ignoreDST = offset < 0, min = options.min, max = options.max, msMin = getMilliseconds(min), msMax = getMilliseconds(max), msInterval = options.interval * MS_PER_MINUTE, toString = kendo.toString, template = that.template, start = new JalaliDate(+min), startDay = start.getDate(), msStart, lastIdx, idx = 0, length, html = '';
                 if (ignoreDST) {
                     length = (MS_PER_DAY + offset * MS_PER_MINUTE) / msInterval;
                 } else {
@@ -135,7 +135,7 @@
                             msStart += MS_PER_DAY;
                         }
                         if (msStart > msMax) {
-                            start = new DATE(+max);
+                            start = new JalaliDate(+max);
                         }
                     }
                     that._dates.push(getMilliseconds(start));
@@ -247,12 +247,12 @@
             },
             _parse: function (value) {
                 var that = this, options = that.options, current = that._value || TODAY;
-                if (value instanceof DATE) {
+                if (value instanceof JalaliDate) {
                     return value;
                 }
                 value = parse(value, options.parseFormats, options.culture);
                 if (value) {
-                    value = new DATE(current.getFullYear(), current.getMonth(), current.getDate(), value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds());
+                    value = new JalaliDate(current.getFullYear(), current.getMonth(), current.getDate(), value.getHours(), value.getMinutes(), value.getSeconds(), value.getMilliseconds());
                 }
                 return value;
             },
@@ -316,7 +316,7 @@
             }
         }
         function dst() {
-            var today = new DATE(), midnight = new DATE(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0), noon = new DATE(today.getFullYear(), today.getMonth(), today.getDate(), 12, 0, 0);
+            var today = new JalaliDate(), midnight = new DATE(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0), noon = new DATE(today.getFullYear(), today.getMonth(), today.getDate(), 12, 0, 0);
             return -1 * (midnight.getTimezoneOffset() - noon.getTimezoneOffset());
         }
         function getMilliseconds(date) {
